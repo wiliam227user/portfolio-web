@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface HomelabData {
   status: string;
@@ -104,33 +105,25 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
             {/* CVE Case Study Card */}
-            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-rose-950/60 text-rose-400 border border-rose-800/50">
-                    CVE-2018-12633
-                  </span>
-                  <span className="text-xs text-slate-500 font-mono">Firmware Exploit</span>
-                </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
-                  TP-Link TL-WR840N Auth Bypass
-                </h3>
-                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
-                  Technical case study and exploitation analysis of authentication bypass vulnerabilities in legacy TP-Link router firmware.
-                </p>
-              </div>
               <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>Shell / Python</span>
-                <a
-                  href="https://github.com/wiliam227user/CVE-2018-12633-TPLink-Auth-Bypass"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-cyan-400 hover:underline"
-                >
-                  View Case Study →
-                </a>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://github.com/wiliam227user/CVE-2018-12633-TPLink-Auth-Bypass"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-slate-400 hover:text-cyan-400 transition"
+                  >
+                    GitHub PoC ↗
+                  </a>
+                  <Link
+                    href="/case-studies/cve-2018-12633"
+                    className="text-cyan-400 font-semibold hover:underline"
+                  >
+                    View Case Study →
+                  </Link>
+                </div>
               </div>
-            </div>
 
             {/* Hybrid Cloud Architecture Card */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
