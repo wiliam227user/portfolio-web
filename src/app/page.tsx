@@ -253,7 +253,7 @@ export default function Home() {
                 )}
               </div>
               <p className="text-[10px] text-slate-600 font-mono border-t border-slate-800/80 pt-2">
-                Origin: Debian 12 / NVMe
+                Origin: Debian Server 12 / NVMe
               </p>
             </div>
 
