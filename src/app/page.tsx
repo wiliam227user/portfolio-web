@@ -26,22 +26,25 @@ export default function Home() {
   const API_URL = "https://api.kimkerans.eu.cc";
 
   useEffect(() => {
-    // 1. Fetch live telemetry from Axioo N4020
+    // 1. Fetch live telemetry from Axioo N4020 backend
     fetch(`${API_URL}/api/homelab-status`)
       .then((res) => res.json())
       .then((json) => {
         setData(json);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("Backend offline:", err);
+        setLoading(false);
+      });
 
-    // 2. Fetch shared SSD files
+    // 2. Fetch shared files on SSD storage
     fetch(`${API_URL}/api/files`)
       .then((res) => res.json())
       .then((json) => setFiles(json.files || []))
       .catch(() => {});
 
-    // 3. Log visitor beacon to local SQLite
+    // 3. Log visitor beacon to local SQLite database
     fetch(`${API_URL}/api/collect`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,11 +60,20 @@ export default function Home() {
 
       <main className="relative max-w-5xl mx-auto px-6 py-12 md:py-20 space-y-16">
         
-        {/* HERO SECTION */}
+        {/* =====================================================
+            1. HERO SECTION
+        ===================================================== */}
         <section className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            Security Research • Homelab Infrastructure
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              Security Research • Homelab Infrastructure
+            </div>
+
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-slate-800 bg-slate-900/80 text-xs font-mono text-slate-300">
+              <span className={`w-2 h-2 rounded-full ${data ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'}`} />
+              {data ? "Axioo Home Server: Online" : "Home Server: Connecting..."}
+            </div>
           </div>
           
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white">
@@ -75,7 +87,6 @@ export default function Home() {
             Exploring embedded security vulnerabilities, edge cloud architectures, and self-hosted high-availability homelab infrastructure.
           </p>
 
-          {/* Social / Direct Links */}
           <div className="flex flex-wrap gap-3 pt-2">
             <a
               href="https://github.com/wiliam227user"
@@ -86,15 +97,23 @@ export default function Home() {
               <span>GitHub</span> →
             </a>
             <a
-              href="mailto:wiliam.ignasius@gmail.com"
+              href="#contact"
               className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-sm font-medium text-cyan-300 transition"
             >
               Get in Touch
             </a>
+            <Link
+              href="/admin"
+              className="px-4 py-2 bg-slate-900/60 hover:bg-slate-800/80 border border-slate-800 rounded-xl text-xs font-mono text-slate-400 hover:text-cyan-400 transition flex items-center"
+            >
+              Telemetry Admin ↗
+            </Link>
           </div>
         </section>
 
-        {/* FEATURED RESEARCH & PROJECTS */}
+        {/* =====================================================
+            2. FEATURED RESEARCH & PROJECTS (4-CARD GRID)
+        ===================================================== */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -104,7 +123,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            {/* 1. CVE Case Study Card (FIXED) */}
+            {/* Card 1: CVE Case Study */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -141,7 +160,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 2. Hybrid Cloud Architecture Card */}
+            {/* Card 2: Hybrid Cloud Architecture */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -163,7 +182,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 3. DNS Sinkhole & Privacy Firewall */}
+            {/* Card 3: DNS Sinkhole */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -185,7 +204,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 4. Zero-Trust Password Vault Infrastructure */}
+            {/* Card 4: Vaultwarden */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -210,25 +229,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* HOMELAB LIVE TELEMETRY & SSD STORAGE */}
+        {/* =====================================================
+            3. LIVE HOMELAB TELEMETRY & PUBLIC STORAGE (3 COLS)
+        ===================================================== */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <span className="text-cyan-400 font-mono">#</span> Live Homelab Telemetry
             </h2>
-            <div className="flex items-center gap-2 text-xs font-mono">
-              <span className={`w-2 h-2 rounded-full ${data ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'}`} />
-              <span className="text-slate-400">{data ? "Axioo N4020 Online" : "Connecting..."}</span>
-            </div>
+            <span className="text-xs font-mono text-slate-500">Node: Axioo N4020 / Debian 12</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
-            {/* System Specs Column */}
+            {/* Col 1: Hardware Specs */}
             <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-4">
               <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Hardware Metrics</h3>
               {loading ? (
-                <p className="text-xs text-slate-500 font-mono">Polling sensors...</p>
+                <p className="text-xs text-slate-500 font-mono">Polling hardware sensors...</p>
               ) : data ? (
                 <div className="space-y-3 font-mono text-xs">
                   <div>
@@ -237,7 +255,7 @@ export default function Home() {
                       <span className="text-slate-200">{data.system.cpu_usage_percent}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full bg-cyan-400" style={{ width: `${Math.min(data.system.cpu_usage_percent, 100)}%` }} />
+                      <div className="h-full bg-cyan-400 transition-all duration-500" style={{ width: `${Math.min(data.system.cpu_usage_percent, 100)}%` }} />
                     </div>
                   </div>
 
@@ -247,7 +265,7 @@ export default function Home() {
                       <span className="text-slate-200">{data.system.ram_usage_percent}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500" style={{ width: `${Math.min(data.system.ram_usage_percent, 100)}%` }} />
+                      <div className="h-full bg-blue-500 transition-all duration-500" style={{ width: `${Math.min(data.system.ram_usage_percent, 100)}%` }} />
                     </div>
                   </div>
 
@@ -257,21 +275,21 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-rose-400 font-mono">Node unreachable</p>
+                <p className="text-xs text-rose-400 font-mono">Node telemetry unreachable</p>
               )}
             </div>
 
-            {/* Running Services Column */}
+            {/* Col 2: Self-Hosted Services */}
             <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-3">
               <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Self-Hosted Services</h3>
               {loading ? (
-                <p className="text-xs text-slate-500 font-mono">Scanning ports...</p>
+                <p className="text-xs text-slate-500 font-mono">Scanning container ports...</p>
               ) : data ? (
                 <div className="grid grid-cols-1 gap-1.5 font-mono text-[11px]">
                   {Object.entries(data.services).map(([name, status]) => (
                     <div key={name} className="flex justify-between items-center px-2.5 py-1.5 bg-slate-950/40 rounded border border-slate-800/60">
                       <span className="capitalize text-slate-300">{name.replace('_', ' ')}</span>
-                      <span className={status === 'online' ? 'text-emerald-400' : 'text-rose-400'}>
+                      <span className={status === 'online' ? 'text-emerald-400 font-semibold' : 'text-rose-400'}>
                         ● {status}
                       </span>
                     </div>
@@ -282,7 +300,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* Shared SSD Downloads Column */}
+            {/* Col 3: Public SSD Storage */}
             <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-3 flex flex-col justify-between">
               <div>
                 <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Public SSD Storage</h3>
@@ -295,7 +313,7 @@ export default function Home() {
                         <span className="truncate max-w-[120px] text-slate-300 font-mono">{file.name}</span>
                         <a
                           href={`${API_URL}/api/files/download/${encodeURIComponent(file.name)}`}
-                          className="px-2 py-0.5 bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 rounded text-[11px] hover:bg-cyan-600/40"
+                          className="px-2 py-0.5 bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 rounded text-[11px] hover:bg-cyan-600/40 transition font-mono"
                           download
                         >
                           {file.size_mb}MB ↓
@@ -306,14 +324,37 @@ export default function Home() {
                 )}
               </div>
               <p className="text-[10px] text-slate-600 font-mono border-t border-slate-800/80 pt-2">
-                Origin: Debian Server 12 / NVMe
+                Origin: Debian 12 / NVMe
               </p>
             </div>
 
           </div>
         </section>
 
-        {/* FOOTER */}
+        {/* =====================================================
+            4. INTERACTIVE CONTACT FORM WITH TELEGRAM DISPATCH
+        ===================================================== */}
+        <section id="contact" className="p-6 md:p-8 bg-slate-900/50 border border-slate-800 rounded-3xl space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <span className="text-cyan-400 font-mono">#</span> Direct Contact Dispatch
+              </h2>
+              <p className="text-xs text-slate-400 mt-1">
+                Messages are stored locally on Axioo NVMe & trigger instant encrypted Telegram notifications.
+              </p>
+            </div>
+            <span className="text-xs font-mono px-2.5 py-1 bg-cyan-950/60 text-cyan-400 border border-cyan-800/50 rounded-lg">
+              Telegram Connected
+            </span>
+          </div>
+
+          <ContactForm />
+        </section>
+
+        {/* =====================================================
+            5. FOOTER
+        ===================================================== */}
         <footer className="border-t border-slate-800/80 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-500">
           <p>© {new Date().getFullYear()} Ignatius Wilhelmus Kim Kerans</p>
           <p className="flex items-center gap-1.5">
@@ -326,5 +367,100 @@ export default function Home() {
 
       </main>
     </div>
+  );
+}
+
+// =====================================================
+// CONTACT FORM SUB-COMPONENT
+// =====================================================
+function ContactForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const res = await fetch('https://api.kimkerans.eu.cc/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (!res.ok) throw new Error('Submission failed');
+
+      setStatus('success');
+      setName('');
+      setEmail('');
+      setMessage('');
+      setTimeout(() => setStatus('idle'), 6000);
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-1">
+          <label className="text-xs font-mono text-slate-400">Your Name</label>
+          <input
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="John Doe"
+            className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
+          />
+        </div>
+        <div className="space-y-1">
+          <label className="text-xs font-mono text-slate-400">Email Address</label>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="john@example.com"
+            className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-1">
+        <label className="text-xs font-mono text-slate-400">Message</label>
+        <textarea
+          required
+          rows={4}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Let's collaborate on a security audit, vulnerability research, or full-stack deployment..."
+          className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-xl text-xs font-mono tracking-wider uppercase transition disabled:opacity-50"
+        >
+          {status === 'loading' ? 'Dispatching...' : 'Send Message →'}
+        </button>
+
+        {status === 'success' && (
+          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5 animate-fade-in">
+            ✓ Dispatched to Ignatius's node & Telegram
+          </span>
+        )}
+        {status === 'error' && (
+          <span className="text-xs font-mono text-rose-400">
+            ⚠ Failed to reach backend node.
+          </span>
+        )}
+      </div>
+    </form>
   );
 }
