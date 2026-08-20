@@ -18,7 +18,7 @@ This repository powers **[kimkerans.eu.cc](https://kimkerans.eu.cc)** — the pe
 
 Instead of hosting a standard static site, this project utilizes a **Hybrid Cloud/On-Premise Architecture**:
 * **Frontend:** Built with Next.js & Tailwind CSS, globally edge-cached on **Vercel**.
-* **Backend:** Asynchronous Python API built with **FastAPI** running on a bare-metal **Axioo MyBook 14H** (Intel Celeron N4020, Debian 12).
+* **Backend:** Asynchronous Python API built with **FastAPI** running on **Axioo MyBook 14H** (
 * **Zero-Trust Network:** Secure outbound communication through **Cloudflare Tunnel (`cloudflared`)**, completely eliminating open router ports and exposing zero public IP addresses.
 
 ---
