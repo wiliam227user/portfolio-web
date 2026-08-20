@@ -85,7 +85,7 @@ export default function Home() {
               <span>GitHub</span> →
             </a>
             <a
-              href="mailto:contact@kimkerans.eu.cc"
+              href="mailto:wiliam.ignasius@gmail.com"
               className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-sm font-medium text-cyan-300 transition"
             >
               Get in Touch
