@@ -104,7 +104,22 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            {/* CVE Case Study Card */}
+            {/* 1. CVE Case Study Card (FIXED) */}
+            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+              <div>
+                <div className="flex justify-between items-start mb-3">
+                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-rose-950/60 text-rose-400 border border-rose-800/50">
+                    CVE-2018-12633
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">Firmware Exploit</span>
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
+                  TP-Link TL-WR840N Auth Bypass
+                </h3>
+                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                  Technical case study and exploitation analysis of authentication bypass vulnerabilities in legacy TP-Link router firmware.
+                </p>
+              </div>
               <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>Shell / Python</span>
                 <div className="flex items-center gap-3">
@@ -124,8 +139,9 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
+            </div>
 
-            {/* Hybrid Cloud Architecture Card */}
+            {/* 2. Hybrid Cloud Architecture Card */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -144,6 +160,50 @@ export default function Home() {
               <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>FastAPI • Cloudflared</span>
                 <span className="text-emerald-400">Active Production</span>
+              </div>
+            </div>
+
+            {/* 3. DNS Sinkhole & Privacy Firewall */}
+            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+              <div>
+                <div className="flex justify-between items-start mb-3">
+                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-amber-950/60 text-amber-400 border border-amber-800/50">
+                    DNS Defense
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">Network Security</span>
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition">
+                  Network-Wide DNS Sinkhole (Pi-hole)
+                </h3>
+                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                  Bare-metal DNS resolver filtering malicious telemetry, tracker networks, and automated botnet C2 traffic across all local subnets.
+                </p>
+              </div>
+              <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
+                <span>FTL Engine • Tailscale</span>
+                <span className="text-emerald-400">Self-Hosted</span>
+              </div>
+            </div>
+
+            {/* 4. Zero-Trust Password Vault Infrastructure */}
+            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+              <div>
+                <div className="flex justify-between items-start mb-3">
+                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-purple-950/60 text-purple-400 border border-purple-800/50">
+                    Identity & Access
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">Zero-Trust</span>
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition">
+                  Vaultwarden Micro-Service
+                </h3>
+                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                  High-efficiency Rust implementation of Bitwarden API with encrypted local SQLite storage, automated backups, and zero external dependency.
+                </p>
+              </div>
+              <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
+                <span>Docker • Rust</span>
+                <span className="text-emerald-400">Isolated Container</span>
               </div>
             </div>
 
