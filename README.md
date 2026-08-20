@@ -24,34 +24,35 @@ Instead of hosting a standard static site, this project utilizes a **Hybrid Clou
 ---
 
 ## 🏗️ System Architecture
+
+```text
 [ Visitor / Client Browser ]
-│
-├── (1) HTTPS Page Load (Static Assets / HTML)
-▼
-[ Vercel Edge Global CDN ] <─── https://kimkerans.eu.cc
-│
-├── (2) Async Telemetry & File Downloads
-▼
-[ Cloudflare Zero Trust Edge ] <─── https://api.kimkerans.eu.cc
-│
-▼ (Encrypted Outbound Tunnel — No Inbound Port Forwarding)
-┌────────────────────────────────────────────────────────┐
-│ ON-PREMISE NODE: AXIOO MYBOOK 14H (DEBIAN 12) │
-│ │
-│ [ cloudflared ] ───> [ FastAPI (Port 8000) ] │
-│ │ │
-│ ┌───────────────────────┼──────────────────────┐ │
-│ ▼ ▼ ▼ │
-│ [ psutil Hardware ] [ Local NVMe SSD ] [ SQLite DB ]
-│ (CPU/RAM Metrics) (Public File Repo) (Analytics)│
-│ │
-│ [ Isolated Docker Infrastructure ] │
-│ • Pi-hole • Vaultwarden • Navidrome • Syncthing │
-│ • Uptime Kuma • Dashy • Cockpit │
-└────────────────────────────────────────────────────────┘
-code
-Code
----
+         │
+         ├── (1) HTTPS Page Load (Static Assets / HTML)
+         ▼
+[ Vercel Edge Global CDN ] ──────> https://kimkerans.eu.cc
+         │
+         ├── (2) Async Telemetry & File Downloads
+         ▼
+[ Cloudflare Zero Trust Edge ] ──> https://api.kimkerans.eu.cc
+         │
+         ▼ (Encrypted Outbound Tunnel — No Port Forwarding)
+┌─────────────────────────────────────────────────────────────┐
+│       ON-PREMISE NODE: AXIOO MYBOOK 14H (DEBIAN 12)         │
+│                                                             │
+│   [ cloudflared ] ───> [ FastAPI Backend (Port 8000) ]      │
+│                               │                             │
+│        ┌──────────────────────┼──────────────────────┐      │
+│        ▼                      ▼                      ▼      │
+│   [ psutil ]          [ NVMe Storage ]        [ SQLite DB ] │
+│   (Telemetry)         (File Downloads)        (Analytics)   │
+│                                                             │
+│   ───────────────────────────────────────────────────────   │
+│   [ Isolated Docker Infrastructure ]                        │
+│   • Pi-hole   • Vaultwarden   • Navidrome   • Syncthing     │
+│   • Uptime Kuma   • Dashy     • Cockpit Admin               │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## ✨ Key Features
 
