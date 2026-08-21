@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-// 1. IMPORT THE VERCEL ANALYTICS COMPONENT HERE ⬇️
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
@@ -59,7 +58,6 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth">
       <body className="bg-[#0a0f18] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
         {children}
-        {/* 2. PLACE THE ANALYTICS TAG HERE ⬇️ */}
         <Analytics />
       </body>
     </html>
