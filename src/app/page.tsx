@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 
 interface HomelabData {
@@ -26,7 +26,6 @@ export default function Home() {
   const API_URL = "https://api.kimkerans.eu.cc";
 
   useEffect(() => {
-    // 1. Fetch live telemetry from Axioo N4020 backend
     fetch(`${API_URL}/api/homelab-status`)
       .then((res) => res.json())
       .then((json) => {
@@ -38,13 +37,11 @@ export default function Home() {
         setLoading(false);
       });
 
-    // 2. Fetch shared files on SSD storage
     fetch(`${API_URL}/api/files`)
       .then((res) => res.json())
       .then((json) => setFiles(json.files || []))
       .catch(() => {});
 
-    // 3. Log visitor beacon to local SQLite database
     fetch(`${API_URL}/api/collect`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -55,14 +52,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0a0f18] text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
       
-      {/* Background Subtle Grid Effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
       <main className="relative max-w-5xl mx-auto px-6 py-12 md:py-20 space-y-16">
         
-        {/* =====================================================
-            1. HERO SECTION
-        ===================================================== */}
+        {/* HERO SECTION */}
         <section className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono">
@@ -111,9 +105,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* =====================================================
-            2. FEATURED RESEARCH & PROJECTS (4-CARD GRID)
-        ===================================================== */}
+        {/* FEATURED RESEARCH & PROJECTS (4-CARD GRID) */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -123,7 +115,6 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            {/* Card 1: CVE Case Study */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -160,7 +151,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Card 2: Hybrid Cloud Architecture */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -182,7 +172,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Card 3: DNS Sinkhole */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -204,7 +193,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Card 4: Vaultwarden */}
             <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
               <div>
                 <div className="flex justify-between items-start mb-3">
@@ -229,9 +217,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* =====================================================
-            3. LIVE HOMELAB TELEMETRY & PUBLIC STORAGE (3 COLS)
-        ===================================================== */}
+        {/* LIVE HOMELAB TELEMETRY & PUBLIC STORAGE (3 COLS) */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -242,7 +228,6 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
-            {/* Col 1: Hardware Specs */}
             <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-4">
               <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Hardware Metrics</h3>
               {loading ? (
@@ -279,7 +264,6 @@ export default function Home() {
               )}
             </div>
 
-            {/* Col 2: Self-Hosted Services */}
             <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-3">
               <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Self-Hosted Services</h3>
               {loading ? (
@@ -300,7 +284,6 @@ export default function Home() {
               )}
             </div>
 
-            {/* Col 3: Public SSD Storage */}
             <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-3 flex flex-col justify-between">
               <div>
                 <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Public SSD Storage</h3>
@@ -331,9 +314,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* =====================================================
-            4. INTERACTIVE CONTACT FORM WITH TELEGRAM DISPATCH
-        ===================================================== */}
+        {/* INTERACTIVE CONTACT FORM */}
         <section id="contact" className="p-6 md:p-8 bg-slate-900/50 border border-slate-800 rounded-3xl space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
@@ -352,9 +333,7 @@ export default function Home() {
           <ContactForm />
         </section>
 
-        {/* =====================================================
-            5. FOOTER
-        ===================================================== */}
+        {/* FOOTER */}
         <footer className="border-t border-slate-800/80 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-500">
           <p>© {new Date().getFullYear()} Ignatius Wilhelmus Kim Kerans</p>
           <p className="flex items-center gap-1.5">
@@ -366,12 +345,15 @@ export default function Home() {
         </footer>
 
       </main>
+
+      {/* STEP 4: FLOATING AI RESUME ASSISTANT WIDGET */}
+      <AiAssistant />
     </div>
   );
 }
 
 // =====================================================
-// CONTACT FORM SUB-COMPONENT
+// CONTACT FORM COMPONENT
 // =====================================================
 function ContactForm() {
   const [name, setName] = useState('');
@@ -462,5 +444,180 @@ function ContactForm() {
         )}
       </div>
     </form>
+  );
+}
+
+// =====================================================
+// STEP 4: REAL-TIME STREAMING AI CHAT WIDGET
+// =====================================================
+function AiAssistant() {
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string }>>([
+    { role: 'assistant', text: "Hello! I am Kim's AI Portfolio Assistant. Ask me anything about his CVE security research, homelab setup, or full-stack projects." },
+  ]);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const chatBottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isStreaming]);
+
+  const handleSend = async (questionText?: string) => {
+    const query = questionText || input;
+    if (!query.trim() || isStreaming) return;
+
+    setInput('');
+    const newMessages = [...messages, { role: 'user' as const, text: query }];
+    setMessages([...newMessages, { role: 'assistant', text: '' }]);
+    setIsStreaming(true);
+
+    try {
+      const response = await fetch('https://api.kimkerans.eu.cc/api/chat/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: query }),
+      });
+
+      if (!response.ok || !response.body) {
+        throw new Error('Failed to connect to streaming backend.');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let streamedAnswer = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const dataStr = line.replace('data: ', '').trim();
+            if (dataStr === '[DONE]') {
+              setIsStreaming(false);
+              return;
+            }
+            try {
+              const parsed = JSON.parse(dataStr);
+              if (parsed.token) {
+                streamedAnswer += parsed.token;
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = { role: 'assistant', text: streamedAnswer };
+                  return updated;
+                });
+              }
+            } catch {
+              // Ignore non-JSON chunks
+            }
+          }
+        }
+      }
+    } catch (err: any) {
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: 'assistant', text: '⚠ Error connecting to streaming node.' };
+        return updated;
+      });
+    } finally {
+      setIsStreaming(false);
+    }
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* Floating Circular Toggle Button */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-full shadow-2xl transition hover:scale-105"
+        >
+          <span className="text-base">💬</span>
+          <span className="text-xs font-mono">Ask AI Assistant</span>
+        </button>
+      )}
+
+      {/* Floating Chat Modal */}
+      {open && (
+        <div className="w-[90vw] md:w-96 h-[500px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+          {/* Top Header */}
+          <div className="p-4 bg-slate-900 border-b border-slate-800 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
+              <h3 className="text-sm font-bold text-white font-mono">Kim's AI Assistant</h3>
+            </div>
+            <button
+              onClick={() => setOpen(false)}
+              className="text-slate-400 hover:text-white text-sm px-2 py-0.5 rounded-lg hover:bg-slate-800"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Messages Container */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-3 text-xs font-mono">
+            {messages.map((m, idx) => (
+              <div key={idx} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div
+                  className={`max-w-[85%] p-3 rounded-2xl ${
+                    m.role === 'user'
+                      ? 'bg-cyan-600 text-white rounded-br-none'
+                      : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-bl-none leading-relaxed'
+                  }`}
+                >
+                  {m.text || <span className="animate-pulse">Thinking...</span>}
+                </div>
+              </div>
+            ))}
+            <div ref={chatBottomRef} />
+          </div>
+
+          {/* Quick Prompts */}
+          <div className="px-3 py-1.5 bg-slate-900/60 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px] font-mono">
+            <button
+              onClick={() => handleSend('Tell me about his CVE-2018-12633 research.')}
+              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded whitespace-nowrap"
+            >
+              CVE Research?
+            </button>
+            <button
+              onClick={() => handleSend('What hardware runs in his homelab?')}
+              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded whitespace-nowrap"
+            >
+              Homelab Specs?
+            </button>
+          </div>
+
+          {/* Input Bar */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}
+            className="p-3 bg-slate-900 border-t border-slate-800 flex gap-2"
+          >
+            <input
+              type="text"
+              value={input}
+              disabled={isStreaming}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask anything about Kim..."
+              className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-cyan-500 disabled:opacity-50"
+            />
+            <button
+              type="submit"
+              disabled={isStreaming || !input.trim()}
+              className="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs font-mono disabled:opacity-50 transition"
+            >
+              Send
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 }
