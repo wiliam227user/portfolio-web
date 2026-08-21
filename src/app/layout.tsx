@@ -3,7 +3,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kimkerans.eu.cc"),
+  metadataBase: new URL("https://kimkerans.my.id"),
   title: "Ignatius Wilhelmus Kim Kerans | Full-Stack & Homelab Security",
   description:
     "Cybersecurity Research, Embedded Router Exploits (CVE-2018-12633), and On-Premise Hybrid Homelab Infrastructure.",

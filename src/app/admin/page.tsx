@@ -33,7 +33,7 @@ export default function AdminDashboard() {
     setError('');
 
     try {
-      const res = await fetch(`https://api.kimkerans.eu.cc/api/analytics?key=${encodeURIComponent(adminKey)}`);
+      const res = await fetch(`https://api.kimkerans.my.id/api/analytics?key=${encodeURIComponent(adminKey)}`);
       if (!res.ok) {
         throw new Error('Invalid Admin Key or Backend Unreachable');
       }

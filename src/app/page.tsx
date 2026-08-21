@@ -23,7 +23,7 @@ export default function Home() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "https://api.kimkerans.eu.cc";
+  const API_URL = "https://api.kimkerans.my.id";
 
   useEffect(() => {
     fetch(`${API_URL}/api/homelab-status`)
