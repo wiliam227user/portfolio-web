@@ -121,7 +121,7 @@ export default function Home() {
                   <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-rose-950/60 text-rose-400 border border-rose-800/50">
                     CVE-2018-12633
                   </span>
-                  <span className="text-xs text-slate-500 font-mono">Firmware Exploit</span>
+                  <span className="text-xs text-slate-400 font-mono">Firmware Exploit</span>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
                   TP-Link TL-WR840N Auth Bypass
@@ -157,7 +157,7 @@ export default function Home() {
                   <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-cyan-950/60 text-cyan-400 border border-cyan-800/50">
                     Hybrid Homelab
                   </span>
-                  <span className="text-xs text-slate-500 font-mono">Infrastructure</span>
+                  <span className="text-xs text-slate-400 font-mono">Infrastructure</span>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
                   Debian 12 Edge-to-Vercel Bridge
@@ -178,7 +178,7 @@ export default function Home() {
                   <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-amber-950/60 text-amber-400 border border-amber-800/50">
                     DNS Defense
                   </span>
-                  <span className="text-xs text-slate-500 font-mono">Network Security</span>
+                  <span className="text-xs text-slate-400 font-mono">Network Security</span>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition">
                   Network-Wide DNS Sinkhole (Pi-hole)
@@ -199,7 +199,7 @@ export default function Home() {
                   <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-purple-950/60 text-purple-400 border border-purple-800/50">
                     Identity & Access
                   </span>
-                  <span className="text-xs text-slate-500 font-mono">Zero-Trust</span>
+                  <span className="text-xs text-slate-400 font-mono">Zero-Trust</span>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition">
                   Vaultwarden Micro-Service
@@ -223,7 +223,7 @@ export default function Home() {
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <span className="text-cyan-400 font-mono">#</span> Live Homelab Telemetry
             </h2>
-            <span className="text-xs font-mono text-slate-500">Node: Axioo N4020 / Debian 12</span>
+            <span className="text-xs font-mono text-slate-400">Node: Axioo N4020 / Debian 12</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
