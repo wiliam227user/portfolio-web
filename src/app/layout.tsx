@@ -54,11 +54,36 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ignatius Wilhelmus Kim Kerans",
+    "alternateName": ["Kim Kerans", "Ignatius Kerans"],
+    "url": "https://kimkerans.my.id",
+    "sameAs": [
+      "https://github.com/wiliam227user"
+    ],
+    "jobTitle": "Full-Stack Engineer & Cybersecurity Researcher",
+    "knowsAbout": [
+      "Cybersecurity",
+      "Embedded Security",
+      "CVE-2018-12633",
+      "Homelab Infrastructure",
+      "FastAPI",
+      "Next.js"
+    ]
+  };
+
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-[#0a0f18] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
         {children}
-        {/* Vercel Analytics */}
         <Analytics />
       </body>
     </html>
