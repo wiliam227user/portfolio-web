@@ -18,14 +18,15 @@ interface FileItem {
   size_mb: number;
 }
 
+const API_URL = "https://api.kimkerans.my.id";
+
 export default function Home() {
   const [data, setData] = useState<HomelabData | null>(null);
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "https://api.kimkerans.my.id";
-
   useEffect(() => {
+    // 1. Fetch live telemetry from Axioo N4020 backend
     fetch(`${API_URL}/api/homelab-status`)
       .then((res) => res.json())
       .then((json) => {
@@ -33,15 +34,17 @@ export default function Home() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Backend offline:", err);
+        console.error("Backend telemetry offline:", err);
         setLoading(false);
       });
 
+    // 2. Fetch shared files on SSD storage
     fetch(`${API_URL}/api/files`)
       .then((res) => res.json())
       .then((json) => setFiles(json.files || []))
       .catch(() => {});
 
+    // 3. Log visitor beacon to local SQLite database
     fetch(`${API_URL}/api/collect`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,47 +55,50 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0a0f18] text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
       
+      {/* Background Subtle Grid Effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
       <main className="relative max-w-5xl mx-auto px-6 py-12 md:py-20 space-y-16">
         
-        {/* HERO SECTION */}
+        {/* =====================================================
+            1. HERO SECTION
+        ===================================================== */}
         <section className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-cyan-300 text-xs font-mono shadow-sm">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               Security Research • Homelab Infrastructure
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-slate-800 bg-slate-900/80 text-xs font-mono text-slate-300">
-              <span className={`w-2 h-2 rounded-full ${data ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'}`} />
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-800 bg-slate-900/90 text-xs font-mono text-slate-300 shadow-sm">
+              <span className={`w-2.5 h-2.5 rounded-full ${data ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'}`} />
               {data ? "Axioo Home Server: Online" : "Home Server: Connecting..."}
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-tight">
             Ignatius Wilhelmus <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500">
               Kim Kerans
             </span>
           </h1>
 
-          <p className="text-slate-400 max-w-2xl text-base md:text-lg leading-relaxed">
+          <p className="text-slate-300 max-w-2xl text-base md:text-lg leading-relaxed">
             Exploring embedded security vulnerabilities, edge cloud architectures, and self-hosted high-availability homelab infrastructure.
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-wrap gap-3 pt-3">
             <a
               href="https://github.com/wiliam227user"
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-200"
+              className="px-4.5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-100 hover:border-cyan-500/50 shadow-md"
             >
               <span>GitHub</span> →
             </a>
             <a
               href="#contact"
-              className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-sm font-medium text-cyan-300 transition"
+              className="px-4.5 py-2.5 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 rounded-xl text-sm font-medium text-cyan-300 transition shadow-md"
             >
               Get in Touch
             </a>
@@ -105,7 +111,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FEATURED RESEARCH & PROJECTS (4-CARD GRID) */}
+        {/* =====================================================
+            2. FEATURED RESEARCH & PROJECTS (4-CARD GRID)
+        ===================================================== */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -113,12 +121,13 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             
-            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+            {/* Card 1: CVE Case Study */}
+            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-rose-950/60 text-rose-400 border border-rose-800/50">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-rose-950/80 text-rose-300 border border-rose-800/60 font-semibold">
                     CVE-2018-12633
                   </span>
                   <span className="text-xs text-slate-400 font-mono">Firmware Exploit</span>
@@ -126,7 +135,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
                   TP-Link TL-WR840N Auth Bypass
                 </h3>
-                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
                   Technical case study and exploitation analysis of authentication bypass vulnerabilities in legacy TP-Link router firmware.
                 </p>
               </div>
@@ -137,7 +146,7 @@ export default function Home() {
                     href="https://github.com/wiliam227user/CVE-2018-12633-TPLink-Auth-Bypass"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-slate-400 hover:text-cyan-400 transition"
+                    className="text-slate-400 hover:text-cyan-300 transition"
                   >
                     GitHub PoC ↗
                   </a>
@@ -151,10 +160,11 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+            {/* Card 2: Hybrid Cloud Architecture */}
+            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-cyan-950/60 text-cyan-400 border border-cyan-800/50">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-semibold">
                     Hybrid Homelab
                   </span>
                   <span className="text-xs text-slate-400 font-mono">Infrastructure</span>
@@ -162,20 +172,21 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
                   Debian 12 Edge-to-Vercel Bridge
                 </h3>
-                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
                   Decoupled architecture connecting an on-premise Axioo N4020 server to Vercel global CDN using secure encrypted Cloudflare Tunnels.
                 </p>
               </div>
               <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>FastAPI • Cloudflared</span>
-                <span className="text-emerald-400">Active Production</span>
+                <span className="text-emerald-400 font-semibold">Active Production</span>
               </div>
             </div>
 
-            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+            {/* Card 3: DNS Sinkhole */}
+            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-amber-950/60 text-amber-400 border border-amber-800/50">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-amber-950/80 text-amber-300 border border-amber-800/60 font-semibold">
                     DNS Defense
                   </span>
                   <span className="text-xs text-slate-400 font-mono">Network Security</span>
@@ -183,20 +194,21 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition">
                   Network-Wide DNS Sinkhole (Pi-hole)
                 </h3>
-                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
                   Bare-metal DNS resolver filtering malicious telemetry, tracker networks, and automated botnet C2 traffic across all local subnets.
                 </p>
               </div>
               <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>FTL Engine • Tailscale</span>
-                <span className="text-emerald-400">Self-Hosted</span>
+                <span className="text-emerald-400 font-semibold">Self-Hosted</span>
               </div>
             </div>
 
-            <div className="p-6 bg-slate-900/50 border border-slate-800/80 rounded-2xl hover:border-cyan-500/50 transition flex flex-col justify-between group">
+            {/* Card 4: Vaultwarden */}
+            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-purple-950/60 text-purple-400 border border-purple-800/50">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-purple-950/80 text-purple-300 border border-purple-800/60 font-semibold">
                     Identity & Access
                   </span>
                   <span className="text-xs text-slate-400 font-mono">Zero-Trust</span>
@@ -204,20 +216,22 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition">
                   Vaultwarden Micro-Service
                 </h3>
-                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
                   High-efficiency Rust implementation of Bitwarden API with encrypted local SQLite storage, automated backups, and zero external dependency.
                 </p>
               </div>
               <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>Docker • Rust</span>
-                <span className="text-emerald-400">Isolated Container</span>
+                <span className="text-emerald-400 font-semibold">Isolated Container</span>
               </div>
             </div>
 
           </div>
         </section>
 
-        {/* LIVE HOMELAB TELEMETRY & PUBLIC STORAGE (3 COLS) */}
+        {/* =====================================================
+            3. LIVE HOMELAB TELEMETRY & PUBLIC STORAGE (3 COLS)
+        ===================================================== */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -226,37 +240,38 @@ export default function Home() {
             <span className="text-xs font-mono text-slate-400">Node: Axioo N4020 / Debian 12</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             
-            <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-4">
-              <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Hardware Metrics</h3>
+            {/* Col 1: Hardware Specs */}
+            <div className="p-5 bg-slate-900/50 border border-slate-800 rounded-2xl space-y-4 shadow-lg">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Hardware Metrics</h3>
               {loading ? (
                 <p className="text-xs text-slate-500 font-mono">Polling hardware sensors...</p>
               ) : data ? (
                 <div className="space-y-3 font-mono text-xs">
                   <div>
-                    <div className="flex justify-between text-slate-400 mb-1">
+                    <div className="flex justify-between text-slate-300 mb-1.5">
                       <span>CPU Load</span>
-                      <span className="text-slate-200">{data.system.cpu_usage_percent}%</span>
+                      <span className="font-bold text-white">{data.system.cpu_usage_percent}%</span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full bg-cyan-400 transition-all duration-500" style={{ width: `${Math.min(data.system.cpu_usage_percent, 100)}%` }} />
+                    <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-teal-400 to-cyan-500 transition-all duration-500" style={{ width: `${Math.min(data.system.cpu_usage_percent, 100)}%` }} />
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex justify-between text-slate-400 mb-1">
+                    <div className="flex justify-between text-slate-300 mb-1.5">
                       <span>RAM Utilization</span>
-                      <span className="text-slate-200">{data.system.ram_usage_percent}%</span>
+                      <span className="font-bold text-white">{data.system.ram_usage_percent}%</span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500 transition-all duration-500" style={{ width: `${Math.min(data.system.ram_usage_percent, 100)}%` }} />
+                    <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-500" style={{ width: `${Math.min(data.system.ram_usage_percent, 100)}%` }} />
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-800/80 flex justify-between">
+                  <div className="pt-2.5 border-t border-slate-800 flex justify-between items-center text-xs">
                     <span className="text-slate-400">NVMe Free</span>
-                    <span className="text-emerald-400 font-bold">{data.system.disk_free_gb} GB</span>
+                    <span className="text-emerald-400 font-bold font-mono">{data.system.disk_free_gb} GB</span>
                   </div>
                 </div>
               ) : (
@@ -264,16 +279,17 @@ export default function Home() {
               )}
             </div>
 
-            <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-3">
-              <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Self-Hosted Services</h3>
+            {/* Col 2: Self-Hosted Services */}
+            <div className="p-5 bg-slate-900/50 border border-slate-800 rounded-2xl space-y-3 shadow-lg">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Self-Hosted Services</h3>
               {loading ? (
                 <p className="text-xs text-slate-500 font-mono">Scanning container ports...</p>
               ) : data ? (
                 <div className="grid grid-cols-1 gap-1.5 font-mono text-[11px]">
                   {Object.entries(data.services).map(([name, status]) => (
-                    <div key={name} className="flex justify-between items-center px-2.5 py-1.5 bg-slate-950/40 rounded border border-slate-800/60">
-                      <span className="capitalize text-slate-300">{name.replace('_', ' ')}</span>
-                      <span className={status === 'online' ? 'text-emerald-400 font-semibold' : 'text-rose-400'}>
+                    <div key={name} className="flex justify-between items-center px-3 py-1.5 bg-slate-950/50 rounded-lg border border-slate-800/80">
+                      <span className="capitalize text-slate-200">{name.replace('_', ' ')}</span>
+                      <span className={status === 'online' ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold'}>
                         ● {status}
                       </span>
                     </div>
@@ -284,19 +300,20 @@ export default function Home() {
               )}
             </div>
 
-            <div className="p-5 bg-slate-900/40 border border-slate-800/80 rounded-2xl space-y-3 flex flex-col justify-between">
+            {/* Col 3: Public SSD Storage */}
+            <div className="p-5 bg-slate-900/50 border border-slate-800 rounded-2xl space-y-3 flex flex-col justify-between shadow-lg">
               <div>
-                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">Public SSD Storage</h3>
+                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Public SSD Storage</h3>
                 {files.length === 0 ? (
-                  <p className="text-xs text-slate-500 font-mono mt-3">No public artifacts in directory.</p>
+                  <p className="text-xs text-slate-400 font-mono mt-3">No public artifacts in directory.</p>
                 ) : (
                   <div className="space-y-2 mt-2">
                     {files.map((file) => (
-                      <div key={file.name} className="flex justify-between items-center p-2 bg-slate-950/40 rounded border border-slate-800/60 text-xs">
-                        <span className="truncate max-w-[120px] text-slate-300 font-mono">{file.name}</span>
+                      <div key={file.name} className="flex justify-between items-center p-2.5 bg-slate-950/50 rounded-lg border border-slate-800/80 text-xs">
+                        <span className="truncate max-w-[120px] text-slate-200 font-mono">{file.name}</span>
                         <a
                           href={`${API_URL}/api/files/download/${encodeURIComponent(file.name)}`}
-                          className="px-2 py-0.5 bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 rounded text-[11px] hover:bg-cyan-600/40 transition font-mono"
+                          className="px-2.5 py-1 bg-cyan-600/20 text-cyan-300 border border-cyan-500/40 rounded-md text-[11px] hover:bg-cyan-600/40 transition font-mono font-medium"
                           download
                         >
                           {file.size_mb}MB ↓
@@ -306,16 +323,18 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <p className="text-[10px] text-slate-600 font-mono border-t border-slate-800/80 pt-2">
-                Origin: Debian 12 / NVMe
+              <p className="text-[10px] text-slate-400 font-mono border-t border-slate-800 pt-2.5">
+                Origin: Debian 12 / NVMe SSD
               </p>
             </div>
 
           </div>
         </section>
 
-        {/* INTERACTIVE CONTACT FORM */}
-        <section id="contact" className="p-6 md:p-8 bg-slate-900/50 border border-slate-800 rounded-3xl space-y-6">
+        {/* =====================================================
+            4. INTERACTIVE CONTACT FORM WITH TELEGRAM DISPATCH
+        ===================================================== */}
+        <section id="contact" className="p-6 md:p-8 bg-slate-900/60 border border-slate-800 rounded-3xl space-y-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -325,7 +344,7 @@ export default function Home() {
                 Messages are stored locally on Axioo NVMe & trigger instant encrypted Telegram notifications.
               </p>
             </div>
-            <span className="text-xs font-mono px-2.5 py-1 bg-cyan-950/60 text-cyan-400 border border-cyan-800/50 rounded-lg">
+            <span className="text-xs font-mono px-3 py-1 bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 rounded-lg font-semibold">
               Telegram Connected
             </span>
           </div>
@@ -333,20 +352,24 @@ export default function Home() {
           <ContactForm />
         </section>
 
-        {/* FOOTER */}
-        <footer className="border-t border-slate-800/80 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-500">
+        {/* =====================================================
+            5. FOOTER
+        ===================================================== */}
+        <footer className="border-t border-slate-800/80 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-400">
           <p>© {new Date().getFullYear()} Ignatius Wilhelmus Kim Kerans</p>
           <p className="flex items-center gap-1.5">
             <span>Edge Hosted on</span>
-            <span className="text-slate-300">Vercel</span>
+            <span className="text-slate-200 font-semibold">Vercel</span>
             <span>+</span>
-            <span className="text-slate-300">Cloudflare Tunnel</span>
+            <span className="text-slate-200 font-semibold">Cloudflare Tunnel</span>
           </p>
         </footer>
 
       </main>
 
-      {/* STEP 4: FLOATING AI RESUME ASSISTANT WIDGET */}
+      {/* =====================================================
+          6. UPGRADED REAL-TIME STREAMING AI ASSISTANT
+      ===================================================== */}
       <AiAssistant />
     </div>
   );
@@ -366,7 +389,7 @@ function ContactForm() {
     setStatus('loading');
 
     try {
-      const res = await fetch('https://api.kimkerans.eu.cc/api/contact', {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
@@ -388,38 +411,38 @@ function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
-          <label className="text-xs font-mono text-slate-400">Your Name</label>
+          <label className="text-xs font-mono text-slate-300">Your Name</label>
           <input
             type="text"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="John Doe"
-            className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-mono text-slate-400">Email Address</label>
+          <label className="text-xs font-mono text-slate-300">Email Address</label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="john@example.com"
-            className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
           />
         </div>
       </div>
 
       <div className="space-y-1">
-        <label className="text-xs font-mono text-slate-400">Message</label>
+        <label className="text-xs font-mono text-slate-300">Message</label>
         <textarea
           required
           rows={4}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Let's collaborate on a security audit, vulnerability research, or full-stack deployment..."
-          className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
+          className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-cyan-500 transition"
         />
       </div>
 
@@ -427,13 +450,13 @@ function ContactForm() {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-xl text-xs font-mono tracking-wider uppercase transition disabled:opacity-50"
+          className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-xl text-xs font-mono tracking-wider uppercase transition disabled:opacity-50 shadow-md"
         >
           {status === 'loading' ? 'Dispatching...' : 'Send Message →'}
         </button>
 
         {status === 'success' && (
-          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5 animate-fade-in">
+          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
             ✓ Dispatched to Ignatius's node & Telegram
           </span>
         )}
@@ -448,7 +471,7 @@ function ContactForm() {
 }
 
 // =====================================================
-// STEP 4: REAL-TIME STREAMING AI CHAT WIDGET
+// UPGRADED AI CHAT ASSISTANT COMPONENT
 // =====================================================
 function AiAssistant() {
   const [open, setOpen] = useState(false);
@@ -458,10 +481,33 @@ function AiAssistant() {
   ]);
   const [isStreaming, setIsStreaming] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isStreaming]);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 150);
+    }
+  }, [open]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handleClear = () => {
+    if (isStreaming) return;
+    setMessages([
+      { role: 'assistant', text: "Chat cleared. What else would you like to know about Kim's work?" },
+    ]);
+  };
 
   const handleSend = async (questionText?: string) => {
     const query = questionText || input;
@@ -473,7 +519,7 @@ function AiAssistant() {
     setIsStreaming(true);
 
     try {
-      const response = await fetch('https://api.kimkerans.eu.cc/api/chat/stream', {
+      const response = await fetch(`${API_URL}/api/chat/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: query }),
@@ -510,9 +556,15 @@ function AiAssistant() {
                   updated[updated.length - 1] = { role: 'assistant', text: streamedAnswer };
                   return updated;
                 });
+              } else if (parsed.error) {
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = { role: 'assistant', text: `⚠ ${parsed.error}` };
+                  return updated;
+                });
               }
             } catch {
-              // Ignore non-JSON chunks
+              // Ignore non-JSON lines
             }
           }
         }
@@ -534,42 +586,56 @@ function AiAssistant() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-full shadow-2xl transition hover:scale-105"
+          className="flex items-center gap-2.5 px-4.5 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-full shadow-2xl transition hover:scale-105 active:scale-95"
         >
           <span className="text-base">💬</span>
-          <span className="text-xs font-mono">Ask AI Assistant</span>
+          <span className="text-xs font-mono tracking-wide">Ask AI Assistant</span>
         </button>
       )}
 
       {/* Floating Chat Modal */}
       {open && (
-        <div className="w-[90vw] md:w-96 h-[500px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+        <div className="w-[92vw] sm:w-96 h-[520px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+          
           {/* Top Header */}
           <div className="p-4 bg-slate-900 border-b border-slate-800 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
               <h3 className="text-sm font-bold text-white font-mono">Kim's AI Assistant</h3>
             </div>
-            <button
-              onClick={() => setOpen(false)}
-              className="text-slate-400 hover:text-white text-sm px-2 py-0.5 rounded-lg hover:bg-slate-800"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={handleClear}
+                disabled={isStreaming}
+                title="Clear Conversation"
+                className="text-slate-400 hover:text-cyan-300 text-xs px-2 py-1 rounded-lg hover:bg-slate-800 transition font-mono disabled:opacity-40"
+              >
+                Clear
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="text-slate-400 hover:text-white text-sm px-2 py-1 rounded-lg hover:bg-slate-800 transition"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
           {/* Messages Container */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3 text-xs font-mono">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs font-mono">
             {messages.map((m, idx) => (
               <div key={idx} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
-                  className={`max-w-[85%] p-3 rounded-2xl ${
+                  className={`max-w-[85%] p-3.5 rounded-2xl ${
                     m.role === 'user'
-                      ? 'bg-cyan-600 text-white rounded-br-none'
-                      : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-bl-none leading-relaxed'
+                      ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-br-none shadow-md'
+                      : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-bl-none leading-relaxed shadow-sm'
                   }`}
                 >
-                  {m.text || <span className="animate-pulse">Thinking...</span>}
+                  <span className="whitespace-pre-wrap">{m.text}</span>
+                  {isStreaming && idx === messages.length - 1 && (
+                    <span className="inline-block w-1.5 h-3.5 ml-1 bg-cyan-400 animate-pulse align-middle" />
+                  )}
                 </div>
               </div>
             ))}
@@ -577,18 +643,27 @@ function AiAssistant() {
           </div>
 
           {/* Quick Prompts */}
-          <div className="px-3 py-1.5 bg-slate-900/60 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px] font-mono">
+          <div className="px-3 py-2 bg-slate-900/60 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px] font-mono scrollbar-none">
             <button
-              onClick={() => handleSend('Tell me about his CVE-2018-12633 research.')}
-              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded whitespace-nowrap"
+              onClick={() => handleSend('Tell me about your CVE-2018-12633 router research.')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
             >
               CVE Research?
             </button>
             <button
-              onClick={() => handleSend('What hardware runs in his homelab?')}
-              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded whitespace-nowrap"
+              onClick={() => handleSend('What hardware & docker apps run in your homelab?')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
             >
               Homelab Specs?
+            </button>
+            <button
+              onClick={() => handleSend('What is your full-stack technology stack?')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
+            >
+              Tech Stack?
             </button>
           </div>
 
@@ -601,17 +676,18 @@ function AiAssistant() {
             className="p-3 bg-slate-900 border-t border-slate-800 flex gap-2"
           >
             <input
+              ref={inputRef}
               type="text"
               value={input}
               disabled={isStreaming}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything about Kim..."
-              className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-cyan-500 disabled:opacity-50"
+              className="flex-1 px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-cyan-500 disabled:opacity-50 transition"
             />
             <button
               type="submit"
               disabled={isStreaming || !input.trim()}
-              className="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs font-mono disabled:opacity-50 transition"
+              className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs font-mono disabled:opacity-50 transition shadow-sm"
             >
               Send
             </button>
