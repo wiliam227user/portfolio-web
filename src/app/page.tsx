@@ -67,7 +67,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-cyan-300 text-xs font-mono shadow-sm">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              Security Research • Homelab Infrastructure
+              Security Research • Distributed Infrastructure
             </div>
 
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-800 bg-slate-900/90 text-xs font-mono text-slate-300 shadow-sm">
@@ -94,7 +94,7 @@ export default function Home() {
               rel="noreferrer"
               className="px-4.5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-100 hover:border-cyan-500/50 shadow-md"
             >
-              <span>GitHub</span> →
+              <span>GitHub Profile</span> →
             </a>
             <a
               href="#contact"
@@ -112,117 +112,153 @@ export default function Home() {
         </section>
 
         {/* =====================================================
-            2. FEATURED RESEARCH & PROJECTS (4-CARD GRID)
+            2. FEATURED RESEARCH & PROJECTS (6-CARD GRID)
         ===================================================== */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-cyan-400 font-mono">#</span> Security Research & Projects
+              <span className="text-cyan-400 font-mono">#</span> Security Research & Infrastructure
             </h2>
+            <span className="text-xs font-mono text-slate-400">6 Active Nodes & Projects</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             
-            {/* Card 1: CVE Case Study */}
-            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
+            {/* 1. CVE Case Study */}
+            <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition flex flex-col justify-between group shadow-lg">
               <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-rose-950/80 text-rose-300 border border-rose-800/60 font-semibold">
+                <div className="flex justify-between items-start mb-2.5">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-rose-950/80 text-rose-300 border border-rose-800/60 font-semibold">
                     CVE-2018-12633
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">Firmware Exploit</span>
+                  <span className="text-[11px] text-slate-400 font-mono">Firmware Exploit</span>
                 </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
+                <h3 className="text-base font-bold text-white group-hover:text-cyan-400 transition">
                   TP-Link TL-WR840N Auth Bypass
                 </h3>
-                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
-                  Technical case study and exploitation analysis of authentication bypass vulnerabilities in legacy TP-Link router firmware.
+                <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                  Exploitation analysis of unauthenticated CGI parameter handling and session bypass in legacy router firmware.
                 </p>
               </div>
-              <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
-                <span>Shell / Python</span>
-                <div className="flex items-center gap-3">
-                  <a
-                    href="https://github.com/wiliam227user/CVE-2018-12633-TPLink-Auth-Bypass"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-slate-400 hover:text-cyan-300 transition"
-                  >
-                    GitHub PoC ↗
-                  </a>
-                  <Link
-                    href="/case-studies/cve-2018-12633"
-                    className="text-cyan-400 font-semibold hover:underline"
-                  >
-                    View Case Study →
-                  </Link>
-                </div>
+              <div className="pt-4 flex justify-between items-center text-xs font-mono border-t border-slate-800/80 mt-3">
+                <a href="https://github.com/wiliam227user/CVE-2018-12633-TPLink-Auth-Bypass" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-cyan-300">
+                  GitHub PoC ↗
+                </a>
+                <Link href="/case-studies/cve-2018-12633" className="text-cyan-400 font-semibold hover:underline">
+                  Case Study →
+                </Link>
               </div>
             </div>
 
-            {/* Card 2: Hybrid Cloud Architecture */}
-            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
+            {/* 2. Hybrid Cloud Bridge */}
+            <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition flex flex-col justify-between group shadow-lg">
               <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-semibold">
-                    Hybrid Homelab
+                <div className="flex justify-between items-start mb-2.5">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-semibold">
+                    Hybrid Bridge
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">Infrastructure</span>
+                  <span className="text-[11px] text-slate-400 font-mono">api.kimkerans.my.id</span>
                 </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
-                  Debian 12 Edge-to-Vercel Bridge
+                <h3 className="text-base font-bold text-white group-hover:text-cyan-400 transition">
+                  Axioo On-Premise Engine
                 </h3>
-                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
-                  Decoupled architecture connecting an on-premise Axioo N4020 server to Vercel global CDN using secure encrypted Cloudflare Tunnels.
+                <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                  Asynchronous FastAPI backend streaming hardware telemetry, visitor analytics, and storage via Cloudflare Tunnels.
                 </p>
               </div>
-              <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
-                <span>FastAPI • Cloudflared</span>
-                <span className="text-emerald-400 font-semibold">Active Production</span>
+              <div className="pt-4 flex justify-between items-center text-xs font-mono border-t border-slate-800/80 mt-3">
+                <span className="text-slate-400">FastAPI • Debian 12</span>
+                <span className="text-emerald-400 font-semibold">● Active</span>
               </div>
             </div>
 
-            {/* Card 3: DNS Sinkhole */}
-            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
+            {/* 3. Odysseus AI Studio */}
+            <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition flex flex-col justify-between group shadow-lg">
               <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-amber-950/80 text-amber-300 border border-amber-800/60 font-semibold">
+                <div className="flex justify-between items-start mb-2.5">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-950/80 text-purple-300 border border-purple-800/60 font-semibold">
+                    AI Studio
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">kimkerans.eu.cc</span>
+                </div>
+                <h3 className="text-base font-bold text-white group-hover:text-purple-400 transition">
+                  Odysseus AI Workspace
+                </h3>
+                <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                  Self-hosted multi-model research studio with interactive artifact editing, password authentication, and OpenRouter integration.
+                </p>
+              </div>
+              <div className="pt-4 flex justify-between items-center text-xs font-mono border-t border-slate-800/80 mt-3">
+                <span className="text-slate-400">Docker • OpenRouter</span>
+                <a href="https://kimkerans.eu.cc" target="_blank" rel="noreferrer" className="text-purple-400 hover:underline">
+                  Launch Studio ↗
+                </a>
+              </div>
+            </div>
+
+            {/* 4. OpenClaw Autonomous Agent */}
+            <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition flex flex-col justify-between group shadow-lg">
+              <div>
+                <div className="flex justify-between items-start mb-2.5">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-950/80 text-indigo-300 border border-indigo-800/60 font-semibold">
+                    Autonomous
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">Telegram Gateway</span>
+                </div>
+                <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition">
+                  OpenClaw 2.0 Agent
+                </h3>
+                <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                  24/7 background AI daemon processing server tasks, web research, and tool automation via mobile Telegram chat.
+                </p>
+              </div>
+              <div className="pt-4 flex justify-between items-center text-xs font-mono border-t border-slate-800/80 mt-3">
+                <span className="text-slate-400">Node.js • Systemd</span>
+                <span className="text-emerald-400 font-semibold">● Connected</span>
+              </div>
+            </div>
+
+            {/* 5. DNS Sinkhole (Pi-hole) */}
+            <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition flex flex-col justify-between group shadow-lg">
+              <div>
+                <div className="flex justify-between items-start mb-2.5">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-950/80 text-amber-300 border border-amber-800/60 font-semibold">
                     DNS Defense
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">Network Security</span>
+                  <span className="text-[11px] text-slate-400 font-mono">Network Security</span>
                 </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition">
-                  Network-Wide DNS Sinkhole (Pi-hole)
+                <h3 className="text-base font-bold text-white group-hover:text-amber-400 transition">
+                  Pi-hole DNS Sinkhole
                 </h3>
-                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
-                  Bare-metal DNS resolver filtering malicious telemetry, tracker networks, and automated botnet C2 traffic across all local subnets.
+                <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                  Bare-metal recursive DNS resolver filtering tracker telemetry and malicious C2 botnet domains network-wide.
                 </p>
               </div>
-              <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
-                <span>FTL Engine • Tailscale</span>
-                <span className="text-emerald-400 font-semibold">Self-Hosted</span>
+              <div className="pt-4 flex justify-between items-center text-xs font-mono border-t border-slate-800/80 mt-3">
+                <span className="text-slate-400">FTL Engine • Tailscale</span>
+                <span className="text-emerald-400 font-semibold">● Active</span>
               </div>
             </div>
 
-            {/* Card 4: Vaultwarden */}
-            <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/5">
+            {/* 6. Vaultwarden Micro-Service */}
+            <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl hover:border-cyan-500/60 transition flex flex-col justify-between group shadow-lg">
               <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono bg-purple-950/80 text-purple-300 border border-purple-800/60 font-semibold">
-                    Identity & Access
+                <div className="flex justify-between items-start mb-2.5">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-semibold">
+                    Zero-Trust
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">Zero-Trust</span>
+                  <span className="text-[11px] text-slate-400 font-mono">Identity Access</span>
                 </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition">
-                  Vaultwarden Micro-Service
+                <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition">
+                  Vaultwarden Key Vault
                 </h3>
-                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
-                  High-efficiency Rust implementation of Bitwarden API with encrypted local SQLite storage, automated backups, and zero external dependency.
+                <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                  High-efficiency Rust password management cluster with AES-256 local encrypted storage and zero third-party dependencies.
                 </p>
               </div>
-              <div className="pt-6 flex justify-between items-center text-xs font-mono text-slate-400">
-                <span>Docker • Rust</span>
-                <span className="text-emerald-400 font-semibold">Isolated Container</span>
+              <div className="pt-4 flex justify-between items-center text-xs font-mono border-t border-slate-800/80 mt-3">
+                <span className="text-slate-400">Docker • Rust</span>
+                <span className="text-emerald-400 font-semibold">● Isolated</span>
               </div>
             </div>
 
@@ -477,7 +513,7 @@ function AiAssistant() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string }>>([
-    { role: 'assistant', text: "Hello! I am Kim's AI Portfolio Assistant. Ask me anything about his CVE security research, homelab setup, or full-stack projects." },
+    { role: 'assistant', text: "Hello! I am Kim's AI Portfolio Assistant. Ask me anything about his CVE security research, homelab setup, Odysseus Studio, or full-stack projects." },
   ]);
   const [isStreaming, setIsStreaming] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
@@ -505,7 +541,7 @@ function AiAssistant() {
   const handleClear = () => {
     if (isStreaming) return;
     setMessages([
-      { role: 'assistant', text: "Chat cleared. What else would you like to know about Kim's work?" },
+      { role: 'assistant', text: "Chat cleared. What else would you like to know about Kim's infrastructure or projects?" },
     ]);
   };
 
@@ -657,6 +693,13 @@ function AiAssistant() {
               className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
             >
               Homelab Specs?
+            </button>
+            <button
+              onClick={() => handleSend('Tell me about your Odysseus AI Studio at kimkerans.eu.cc.')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
+            >
+              Odysseus Studio?
             </button>
             <button
               onClick={() => handleSend('What is your full-stack technology stack?')}
