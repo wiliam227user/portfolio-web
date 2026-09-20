@@ -681,20 +681,6 @@ function AiAssistant() {
           {/* Quick Prompts */}
           <div className="px-3 py-2 bg-slate-900/60 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px] font-mono scrollbar-none">
             <button
-              onClick={() => handleSend('Tell me about your CVE-2018-12633 router research.')}
-              disabled={isStreaming}
-              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
-            >
-              CVE Research?
-            </button>
-            <button
-              onClick={() => handleSend('What hardware & docker apps run in your homelab?')}
-              disabled={isStreaming}
-              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
-            >
-              Homelab Specs?
-            </button>
-            <button
               onClick={() => handleSend('Tell me about your Odysseus AI Studio at kimkerans.eu.cc.')}
               disabled={isStreaming}
               className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
@@ -708,6 +694,29 @@ function AiAssistant() {
             >
               Tech Stack?
             </button>
+            <div className="px-3 py-2 bg-slate-900/60 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px] font-mono scrollbar-none">
+            <button
+              onClick={() => handleSend('What are your latest projects and repositories on GitHub?')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
+            >
+              Latest Projects? ↗
+            </button>
+            <button
+              onClick={() => handleSend('Tell me about your CVE-2018-12633 router research.')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
+            >
+              CVE Research?
+            </button>
+            <button
+              onClick={() => handleSend('What hardware & docker apps run in your homelab?')}
+              disabled={isStreaming}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg whitespace-nowrap transition disabled:opacity-40 border border-slate-700/60"
+            >
+              Homelab Specs?
+            </button>
+          </div>
           </div>
 
           {/* Input Bar */}
